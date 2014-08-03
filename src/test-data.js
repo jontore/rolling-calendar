@@ -1,14 +1,35 @@
 var testData = [
   {
+    uid: "9d6fa48343f70300fe3109efe@calendarlabs.com",
     summary: 'Morning meeting',
     start: moment().subtract(2, 'hour').toDate(),
     end: moment().subtract(1, 'hour').toDate()
   },
   {
+    uid: "03fd8b92ac65ba1d2883d915c@calendarlabs.com",
     summary: 'meeting now',
     start: moment().subtract(10, 'minute').toDate(),
     end: moment().add(20, 'minute').toDate()
+  },
+  {
+    uid: "23fd8b92ac65ba1d2883d915c@calendarlabs.com",
+    summary: 'in half an hour',
+    start: moment().add(30, 'minute').toDate(),
+    end: moment().add(2, 'hour').toDate()
+  },
+  {
+    uid: "33fd8b92ac65ba1d2883d915c@calendarlabs.com",
+    summary: 'in four hours',
+    start: moment().add(3, 'hour').toDate(),
+    end: moment().add(4, 'hour').toDate()
+  },
+  {
+    uid: "43fd8b92ac65ba1d2883d915c@calendarlabs.com",
+    summary: 'in late august ',
+    start: moment("20140806", "YYYYMMDD").startOf('day').toDate(),
+    end: moment("20140806", "YYYYMMDD").startOf('day').add(2, 'hour').toDate()
   }
+
 ];
 // {
 //   "VCALENDAR": [

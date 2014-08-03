@@ -1,4 +1,19 @@
-.calendar-circles {
+.calendar-circles{
   border: 1px solid red;
-  width: 30%;
+}
+
+.appointment {
+  position: relative;
+  display: inline-block;
+}
+
+.calendar-circle {
+  display: inline-block;
+  background-color: #CCC;
+  border: 1px solid green;
+  border-radius: 50%;
+}
+
+.calendar-circle:hover {
+  cursor: pointer;
 }
