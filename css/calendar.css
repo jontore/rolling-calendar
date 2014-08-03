@@ -14,6 +14,14 @@
   border-radius: 50%;
 }
 
+.later .calendar-circle {
+  background-color: green;
+}
+
+.earlier .calendar-circle {
+  background-color: red;
+}
+
 .calendar-circle:hover {
   cursor: pointer;
 }

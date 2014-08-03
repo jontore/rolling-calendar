@@ -1,5 +1,6 @@
 /** @jsx React.DOM */
 
+
 var CurrentAppointment = React.createClass({
   formatAppointment: function (appointment) {
     return {
@@ -54,8 +55,15 @@ var Appointment = React.createClass({
     this.props.onClick(this);
   },
 
-  render: function () {
-    var appointment = this.props.appointment;
+  renderNowIndicator: function () {
+    return (
+      <li key="now" class="now">
+        NOW
+      </li>
+    );
+  },
+
+  renderNormalAppointment: function (appointment) {
     var s = this.getDuration(appointment);
     var nextLength = this.getTimeToNextAppointment(appointment, this.props.nextAppointment);
 
@@ -64,11 +72,26 @@ var Appointment = React.createClass({
       height: s,
       'margin-right': nextLength
     };
+    var classes = React.addons.classSet({
+      'appointment': true,
+      'earlier': appointment.toNow < 0,
+      'later': appointment.toNow > 0
+    });
     return (
-      <li key={appointment.uid} onClick={this.handleClick} className="appointment">
+      <li key={appointment.uid} onClick={this.handleClick} className={classes}>
         <span className="calendar-circle" style={style}></span>
       </li>
     );
+  },
+
+  render: function () {
+    var appointment = this.props.appointment;
+    if (appointment.now) {
+      return this.renderNowIndicator();
+    } else {
+      return this.renderNormalAppointment(appointment);
+    }
+
   }
 });
 
@@ -104,10 +127,39 @@ var AppointmentList = React.createClass({
 });
 
 var CalendarCircle = React.createClass({
+
+  getInitialState: function () {
+    return {
+      now: moment().toDate()
+    };
+  },
+
+  componentWillMount: function () {
+    setInterval(function () {
+      if (this.isMounted()) {
+        this.setState({
+          now: moment().toDate()
+        });
+      }
+    }.bind(this), 3000);
+  },
+
+  getSortedAppointments: function (appointments) {
+    appointments = appointments.map(function (appointment) {
+      appointment.toNow = moment(appointment.start).unix() - moment(this.state.now).unix();
+      return appointment;
+    }.bind(this));
+
+    return appointments.sort(function (appointment) {
+      return appointment.toNow
+    });
+  },
+
   render: function () {
+    var appointments = this.getSortedAppointments(this.props.data);
     return (
       <section className="calendar-circles">
-        <AppointmentList data={this.props.data}></AppointmentList>
+        <AppointmentList data={appointments}></AppointmentList>
       </section>
     );
   }
